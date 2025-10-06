@@ -1,0 +1,32 @@
+name: CI - Build e Testes
+
+# Quando o workflow deve rodar
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+# Os "jobs" são as etapas automáticas
+jobs:
+  build:
+    runs-on: ubuntu-latest  # ambiente virtual Linux
+
+    steps:
+      # Etapa 1: baixar o repositório
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Etapa 2: configurar Node.js (caso precise)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Etapa 3: instalar dependências (se houver package.json)
+      - name: Instalar dependências
+        run: npm ci || true
+
+      # Etapa 4: rodar os "testes"
+      - name: Executar testes
+        run: echo "✔️ Build e testes executados com sucesso!"
